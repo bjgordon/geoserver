@@ -201,18 +201,29 @@ public class GeoJSONGetFeatureResponse extends WFSGetFeatureOutputFormat {
                         }
                         
                         jsonWriter.key("geometry");
-                        Geometry aGeom = (Geometry) feature.getDefaultGeometry();
-
-                        if (aGeom == null) {
-                            // In case the default geometry is not set, we will
-                            // just use the first geometry we find
-                            for (int j = 0; j < types.size() && aGeom == null; j++) {
-                                Object value = feature.getAttribute(j);
-                                if (value != null && value instanceof Geometry) {
-                                    aGeom = (Geometry) value;
+                        System.out.println("BRENDAN");
+                        //BRENDAN GORDON - For WMS.GetFeatureInfo, removed geometry for json
+                        Geometry aGeom = null;
+                        if (request.getService().equalsIgnoreCase("wms") && request.getRequest().equalsIgnoreCase("GetFeatureInfo"))
+                        {
+                              aGeom = null;
+                        }
+                        else
+                        {
+                            aGeom = (Geometry) feature.getDefaultGeometry();
+    
+                            if (aGeom == null) {
+                                // In case the default geometry is not set, we will
+                                // just use the first geometry we find
+                                for (int j = 0; j < types.size() && aGeom == null; j++) {
+                                    Object value = feature.getAttribute(j);
+                                    if (value != null && value instanceof Geometry) {
+                                        aGeom = (Geometry) value;
+                                    }
                                 }
                             }
                         }
+                             
                         // Write the geometry, whether it is a null or not
                         if (aGeom != null) {
                             jsonWriter.writeGeom(aGeom);
