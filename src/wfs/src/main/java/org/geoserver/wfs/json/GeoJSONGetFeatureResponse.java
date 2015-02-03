@@ -201,8 +201,7 @@ public class GeoJSONGetFeatureResponse extends WFSGetFeatureOutputFormat {
                         }
                         
                         jsonWriter.key("geometry");
-                        System.out.println("BRENDAN");
-                        //BRENDAN GORDON - For WMS.GetFeatureInfo, removed geometry for json
+                        //For WMS.GetFeatureInfo, removed geometry for json
                         Geometry aGeom = null;
                         if (request.getService().equalsIgnoreCase("wms") && request.getRequest().equalsIgnoreCase("GetFeatureInfo"))
                         {

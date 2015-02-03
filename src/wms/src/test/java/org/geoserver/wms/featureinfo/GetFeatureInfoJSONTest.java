@@ -173,15 +173,7 @@ public class GetFeatureInfoJSONTest extends GetFeatureInfoTest {
         JSONObject json = (JSONObject) getAsJSON(request);
         JSONObject feature = (JSONObject) json.getJSONArray("features").get(0);
         //geometry is null for this info_format
-        assert(feature.getString("geometry").equalsIgnoreCase("<null>"));
-//        JSONObject geom = feature.getJSONObject("geometry");
-//        
-//        // unroll the geometry and get the first coordinate
-//        JSONArray coords = geom.getJSONArray("coordinates").getJSONArray(0).getJSONArray(0).getJSONArray(0);
-//        assertTrue(new NumberRange<Double>(Double.class, 500525d, 500575d).contains((Number) coords
-//                .getDouble(0)));
-//        assertTrue(new NumberRange<Double>(Double.class, 500025d, 500050d).contains((Number) coords
-//                .getDouble(1)));
+        assert(feature.getString("geometry").equalsIgnoreCase("null"));
     }
 
  
