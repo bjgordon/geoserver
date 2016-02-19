@@ -184,11 +184,18 @@ public class GeoJSONGetFeatureResponse extends WFSGetFeatureOutputFormat {
 
                         // Write the geometry, whether it is a null or not
                         if (aGeom != null) {
-                            jsonWriter.writeGeom(aGeom);
+                            if (request.getService().equalsIgnoreCase("wms") && request.getRequest().equalsIgnoreCase("GetFeatureInfo")){
+                            	//Do not return the geometry in the result.
+                            	jsonWriter.value(null);
+                            }
+                            else {
+                            	jsonWriter.writeGeom(aGeom);
+                            }
                             hasGeom = true;
                         } else {
                             jsonWriter.value(null);
                         }
+                        
                         if (defaultGeomType != null)
                             jsonWriter.key("geometry_name").value(defaultGeomType.getLocalName());
 

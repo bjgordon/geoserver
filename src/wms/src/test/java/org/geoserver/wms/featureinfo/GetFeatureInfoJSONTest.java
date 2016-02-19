@@ -17,7 +17,6 @@ import org.geoserver.catalog.FeatureTypeInfo;
 import org.geoserver.data.test.MockData;
 import org.geoserver.wfs.json.JSONType;
 import org.geoserver.wms.wms_1_1_1.GetFeatureInfoTest;
-import org.geotools.util.NumberRange;
 import org.junit.Test;
 
 import com.mockrunner.mock.web.MockHttpServletResponse;
@@ -176,7 +175,7 @@ public class GetFeatureInfoJSONTest extends GetFeatureInfoTest {
     }
 
     @Test
-    public void testReprojectedLayer() throws Exception {
+    public void testGetFeatureInfoJsonReturnsNullGeometry() throws Exception {
         String layer = getLayerId(MockData.MPOLYGONS);
 
         String request = "wms?version=1.1.1&bbox=500525,500025,500575,500050&styles=&format=jpeg"
@@ -187,12 +186,8 @@ public class GetFeatureInfoJSONTest extends GetFeatureInfoTest {
         JSONObject json = (JSONObject) getAsJSON(request);
         JSONObject feature = (JSONObject) json.getJSONArray("features").get(0);
         JSONObject geom = feature.getJSONObject("geometry");
-        // unroll the geometry and get the first coordinate
-        JSONArray coords = geom.getJSONArray("coordinates").getJSONArray(0).getJSONArray(0).getJSONArray(0);
-        assertTrue(new NumberRange<Double>(Double.class, 500525d, 500575d).contains((Number) coords
-                .getDouble(0)));
-        assertTrue(new NumberRange<Double>(Double.class, 500025d, 500050d).contains((Number) coords
-                .getDouble(1)));
+        
+        assertTrue(geom.isNullObject());
     }
     
     /**
